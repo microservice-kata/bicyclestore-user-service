@@ -1,9 +1,9 @@
-package me.aikin.seed.component;
+package me.aikin.bicyclestore.component;
 
 
-import me.aikin.seed.resource.AboutController;
-import me.aikin.seed.services.AboutService;
-import me.aikin.seed.services.UserService;
+import me.aikin.bicyclestore.resource.AboutController;
+import me.aikin.bicyclestore.services.AboutService;
+import me.aikin.bicyclestore.services.UserService;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.ContextConfiguration;

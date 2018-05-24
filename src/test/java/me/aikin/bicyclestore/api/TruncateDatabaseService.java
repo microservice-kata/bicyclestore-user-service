@@ -1,4 +1,4 @@
-package me.aikin.seed.api;
+package me.aikin.bicyclestore.api;
 
 import org.apache.ibatis.session.SqlSession;
 import org.apache.ibatis.session.SqlSessionFactory;

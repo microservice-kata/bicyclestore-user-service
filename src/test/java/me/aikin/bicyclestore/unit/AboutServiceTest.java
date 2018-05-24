@@ -1,6 +1,6 @@
-package me.aikin.seed.unit;
+package me.aikin.bicyclestore.unit;
 
-import me.aikin.seed.services.AboutService;
+import me.aikin.bicyclestore.services.AboutService;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.InjectMocks;

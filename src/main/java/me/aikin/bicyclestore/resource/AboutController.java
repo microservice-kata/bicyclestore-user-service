@@ -1,7 +1,7 @@
-package me.aikin.seed.resource;
+package me.aikin.bicyclestore.resource;
 
-import me.aikin.seed.services.AboutService;
-import me.aikin.seed.services.UserService;
+import me.aikin.bicyclestore.services.AboutService;
+import me.aikin.bicyclestore.services.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;

@@ -3,8 +3,8 @@ apply plugin: 'org.sonarqube'
 
 sonarqube {
     properties {
-        property "sonar.projectName", "spring-boot-microservice-seed"
-        property "sonar.projectKey", "spring-boot-microservice-seed"
+        property "sonar.projectName", "bicyclestore-user-service"
+        property "sonar.projectKey", "bicyclestore-user-service"
         property "sonar.jacoco.reportPaths", "${buildDir}/jacoco/junitPlatformTest.exec"
     }
 }

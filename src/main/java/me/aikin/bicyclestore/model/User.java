@@ -1,4 +1,4 @@
-package me.aikin.seed.model;
+package me.aikin.bicyclestore.model;
 
 import java.io.Serializable;
 import java.sql.Timestamp;

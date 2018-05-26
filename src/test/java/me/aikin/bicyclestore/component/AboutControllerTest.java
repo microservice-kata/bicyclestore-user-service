@@ -1,7 +1,6 @@
 package me.aikin.bicyclestore.component;
 
 
-import me.aikin.bicyclestore.resource.AboutController;
 import me.aikin.bicyclestore.services.AboutService;
 import me.aikin.bicyclestore.services.UserService;
 import org.junit.jupiter.api.Test;

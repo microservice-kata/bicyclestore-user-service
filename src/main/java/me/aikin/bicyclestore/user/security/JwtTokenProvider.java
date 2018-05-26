@@ -29,4 +29,12 @@ public class JwtTokenProvider {
             .signWith(SignatureAlgorithm.HS512, jwtSecret)
             .compact();
     }
+
+    public boolean validateToken(String jwt) {
+        return false;
+    }
+
+    public Long getUserIdFromJWT(String jwt) {
+        return null;
+    }
 }

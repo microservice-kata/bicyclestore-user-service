@@ -34,6 +34,10 @@ apply {
 sourceCompatibility = 1.8
 targetCompatibility = 1.8
 
+configurations {
+    providedRuntime
+}
+
 ext {
     junitJupiterVersion = "5.1.0"
     junitPlatformVersion = "1.1.0"
@@ -77,4 +81,5 @@ processResources {
     include "db/migration/**"
 }
 build.dependsOn processResources
+bootRun.dependsOn flywayMigrate
 bootRun.systemProperty "spring.profiles.active", env

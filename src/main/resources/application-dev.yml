@@ -10,5 +10,5 @@ spring:
 
 security:
   jwt:
-    secret: PLACE_HOLDER ${JWT_SECRET:_SEMS_JWT_SECRET_201708240805987}
+    secret: PLACE_HOLDER ${JWT_SECRET:_SEMS_JWT_SECRET_201805260909999}
     expiration-in-seconds: PLACE_HOLDER 600000

@@ -11,7 +11,7 @@ import java.util.Date;
 @Component
 @Slf4j
 public class JwtTokenProvider {
-    @Value("${security.jwt.secret:_SEMS_JWT_SECRET_201801080808888}")
+    @Value("${security.jwt.secret:_SEMS_JWT_SECRET_201805260909999}")
     private String jwtSecret;
 
     @Value("${security.jwt.expiration-in-seconds}")
@@ -48,7 +48,7 @@ public class JwtTokenProvider {
         }
         return false;
     }
-    
+
     public Long getUserIdFromJWT(String token) {
         Claims claims = Jwts.parser()
             .setSigningKey(jwtSecret)

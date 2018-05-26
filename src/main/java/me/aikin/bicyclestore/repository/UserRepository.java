@@ -1,6 +1,6 @@
 package me.aikin.bicyclestore.repository;
 
-import me.aikin.bicyclestore.model.User;
+import me.aikin.bicyclestore.domain.User;
 import org.apache.ibatis.annotations.Insert;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Select;

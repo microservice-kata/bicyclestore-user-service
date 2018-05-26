@@ -1,4 +1,4 @@
-package me.aikin.bicyclestore.api.auth.playload;
+package me.aikin.bicyclestore.user.api.auth.playload;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;

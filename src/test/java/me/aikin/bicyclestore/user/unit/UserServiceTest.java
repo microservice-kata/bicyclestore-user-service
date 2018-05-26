@@ -1,6 +1,6 @@
-package me.aikin.bicyclestore.unit;
+package me.aikin.bicyclestore.user.unit;
 
-import me.aikin.bicyclestore.services.AboutService;
+import me.aikin.bicyclestore.user.services.UserService;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.InjectMocks;
@@ -9,9 +9,9 @@ import org.mockito.MockitoAnnotations;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
 
-public class AboutServiceTest {
+public class UserServiceTest {
     @InjectMocks
-    private AboutService aboutService;
+    private UserService userService;
 
     @BeforeEach
     public void setUp() {
@@ -20,6 +20,6 @@ public class AboutServiceTest {
 
     @Test
     public void should_return_about_when_call_about() {
-        assertEquals("about", aboutService.about());
+        assertEquals("aikin", userService.getUserName());
     }
 }

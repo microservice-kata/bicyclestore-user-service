@@ -1,4 +1,4 @@
-package me.aikin.bicyclestore.domain;
+package me.aikin.bicyclestore.user.domain;
 
 import lombok.*;
 

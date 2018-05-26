@@ -1,4 +1,4 @@
-package me.aikin.bicyclestore.domain;
+package me.aikin.bicyclestore.user.domain;
 
 public enum  RoleName {
     ROLE_USER,

@@ -1,4 +1,4 @@
-package me.aikin.bicyclestore.services;
+package me.aikin.bicyclestore.user.services;
 
 import org.springframework.stereotype.Service;
 

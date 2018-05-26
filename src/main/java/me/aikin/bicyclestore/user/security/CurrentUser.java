@@ -1,4 +1,4 @@
-package me.aikin.bicyclestore.security;
+package me.aikin.bicyclestore.user.security;
 
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 

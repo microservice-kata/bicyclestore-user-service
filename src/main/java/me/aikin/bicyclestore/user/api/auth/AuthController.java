@@ -1,9 +1,9 @@
-package me.aikin.bicyclestore.api.auth;
+package me.aikin.bicyclestore.user.api.auth;
 
 
-import me.aikin.bicyclestore.api.auth.playload.JwtAuthenticationResponse;
-import me.aikin.bicyclestore.api.auth.playload.LoginRequest;
-import me.aikin.bicyclestore.security.JwtTokenProvider;
+import me.aikin.bicyclestore.user.api.auth.playload.JwtAuthenticationResponse;
+import me.aikin.bicyclestore.user.api.auth.playload.LoginRequest;
+import me.aikin.bicyclestore.user.security.JwtTokenProvider;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;

@@ -1,4 +1,4 @@
-package me.aikin.bicyclestore.security;
+package me.aikin.bicyclestore.user.security;
 
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;

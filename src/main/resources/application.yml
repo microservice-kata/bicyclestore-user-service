@@ -10,3 +10,8 @@ spring:
     driver-class-name: com.mysql.cj.jdbc.Driver
   profiles:
     active: PLACE_HOLDER
+
+security:
+  jwt:
+    secret: PLACE_HOLDER
+    expiration-in-seconds: PLACE_HOLDER

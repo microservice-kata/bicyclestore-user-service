@@ -7,3 +7,8 @@ spring:
     password:
     name: bicyclestore_user_dev
     driver-class-name: com.mysql.cj.jdbc.Driver
+
+security:
+  jwt:
+    secret: PLACE_HOLDER ${JWT_SECRET:_SEMS_JWT_SECRET_201708240805987}
+    expiration-in-seconds: PLACE_HOLDER 600000

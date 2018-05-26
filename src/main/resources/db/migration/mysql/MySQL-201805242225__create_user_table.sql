@@ -4,11 +4,11 @@ CREATE TABLE `USER` (
     `username`   VARCHAR(15)  NOT NULL COMMENT '用户名',
     `email`      VARCHAR(40)  NOT NULL,
     `password`   VARCHAR(255) NOT NULL,
-    `created_at` DATETIME              DEFAULT CURDATE(),
+    `created_at` DATETIME              DEFAULT NULL,
     `updated_at` DATETIME              DEFAULT NULL,
     PRIMARY KEY (`id`),
-    UNIQUE KEY `uk_users_username` (`username`),
-    UNIQUE KEY `uk_users_email` (`email`)
+    UNIQUE KEY `uk_user_username` (`username`),
+    UNIQUE KEY `uk_user_email` (`email`)
 )
     ENGINE = InnoDB
     DEFAULT CHARSET = utf8 COMMENT = 'This is just to test how to alter comments';;

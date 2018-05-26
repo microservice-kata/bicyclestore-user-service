@@ -1,61 +1,37 @@
 package me.aikin.bicyclestore.user.api;
 
-import org.apache.ibatis.session.SqlSession;
-import org.apache.ibatis.session.SqlSessionFactory;
+import org.hibernate.Session;
+import org.hibernate.metadata.ClassMetadata;
+import org.hibernate.persister.entity.AbstractEntityPersister;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Profile;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
+import javax.persistence.EntityManager;
 import java.util.ArrayList;
+import java.util.List;
+import java.util.Map;
 
 @Service
 @Profile("test")
 public class TruncateDatabaseService {
     @Autowired
-    private SqlSessionFactory sqlSessionFactory;
+    private EntityManager entityManager;
 
-    @Value(value = "${spring.datasource.name}")
-    private String DatabaseName;
+    @Transactional
+    public void truncate() {
+        List<String> tableNames = new ArrayList<>();
+        Session session = entityManager.unwrap(Session.class);
+        Map<String, ClassMetadata> hibernateMetadata = session.getSessionFactory().getAllClassMetadata();
 
-
-    void truncate() throws SQLException {
-        try (final SqlSession sqlSession = sqlSessionFactory.openSession()) {
-            Connection sqlSessionConnection = sqlSession.getConnection();
-            sqlSessionConnection.prepareStatement("SET FOREIGN_KEY_CHECKS = FALSE;").execute();
-
-            ArrayList<String> tableNames = queryAllTableNames(sqlSessionConnection);
-            tableNames.forEach(tableName -> {
-                try {
-                    PreparedStatement preparedStatement = sqlSessionConnection.prepareStatement("TRUNCATE TABLE " + tableName + ";");
-                    preparedStatement.setQueryTimeout(20);
-                    preparedStatement.execute();
-                } catch (SQLException e) {
-                    e.printStackTrace();
-                }
-            });
-
-            sqlSessionConnection.prepareStatement("SET FOREIGN_KEY_CHECKS = TRUE;").execute();
-
-            sqlSession.commit(true);
+        for (ClassMetadata classMetadata : hibernateMetadata.values()) {
+            AbstractEntityPersister aep = (AbstractEntityPersister) classMetadata;
+            tableNames.add(aep.getTableName());
         }
-    }
 
-    private ArrayList<String> queryAllTableNames(Connection sqlSessionConnection) throws SQLException {
-        String tableNameColumn = "table_name";
-        String queryString = "SELECT %s FROM information_schema.tables WHERE table_type = 'base table' AND table_schema = '%s'";
-        String queryAllTableNamesStatement = String.format(queryString, tableNameColumn, DatabaseName);
-
-        ResultSet resultSet = sqlSessionConnection.prepareStatement(queryAllTableNamesStatement).executeQuery();
-        ArrayList<String> tableNames = new ArrayList<>();
-        while (resultSet.next()) {
-            String tableName = resultSet.getString(tableNameColumn);
-            tableNames.add(tableName);
-        }
-        return tableNames;
+        entityManager.createNativeQuery("SET FOREIGN_KEY_CHECKS = FALSE").executeUpdate();
+        tableNames.forEach(tableName -> entityManager.createNativeQuery("TRUNCATE TABLE " + tableName.toUpperCase()).executeUpdate());
+        entityManager.createNativeQuery("SET FOREIGN_KEY_CHECKS = TRUE").executeUpdate();
     }
 }

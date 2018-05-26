@@ -43,6 +43,7 @@ public class UserPrincipal implements UserDetails {
             .name(user.getName())
             .username(user.getUsername())
             .email(user.getEmail())
+            .password(user.getPassword())
             .authorities(authorities)
             .build();
     }

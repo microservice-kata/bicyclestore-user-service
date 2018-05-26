@@ -13,8 +13,6 @@ import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import org.springframework.web.context.WebApplicationContext;
 
-import java.sql.SQLException;
-
 @ExtendWith(SpringExtension.class)
 @ActiveProfiles("test")
 @SpringBootTest
@@ -27,7 +25,7 @@ public class ApiBaseTest {
     private TruncateDatabaseService truncateDatabaseService;
 
     @BeforeEach
-    public void setup() throws SQLException {
+    public void setup() {
         truncateDatabaseService.truncate();
 
         MockMvc mockMvc = MockMvcBuilders.webAppContextSetup(webApplicationContext).build();

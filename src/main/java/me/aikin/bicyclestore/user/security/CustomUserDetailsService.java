@@ -1,6 +1,7 @@
 package me.aikin.bicyclestore.user.security;
 
 import me.aikin.bicyclestore.user.domain.User;
+import me.aikin.bicyclestore.user.exception.ResourceNotFoundException;
 import me.aikin.bicyclestore.user.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -23,6 +24,10 @@ public class CustomUserDetailsService implements UserDetailsService {
     }
 
     public UserDetails loadUserById(Long userId) {
-        return null;
+        User user = userRepository.findById(userId).orElseThrow(
+            () -> new ResourceNotFoundException("User", "id", userId)
+        );
+
+        return UserPrincipal.create(user);
     }
 }

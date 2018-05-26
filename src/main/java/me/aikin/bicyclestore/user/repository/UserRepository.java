@@ -16,4 +16,6 @@ public interface UserRepository {
     void insert(User user);
 
     Optional<User> findByUsernameOrEmail(String username, String email);
+
+    Optional<User> findById(Long userId);
 }

@@ -19,7 +19,6 @@ public class AuthControllerTest extends ApiBaseTest {
 
     @Test
     public void should_can_signin() {
-
         String rawPassword = "password@aikin";
         String encodePassword = passwordEncoder.encode(rawPassword);
         User user = User.builder()
@@ -34,15 +33,14 @@ public class AuthControllerTest extends ApiBaseTest {
             .usernameOrEmail(user.getUsername())
             .password(rawPassword)
             .build();
+
         given().
             body(loginRequest).
-            when().
+        when().
             post("/api/auth/signin").
-            then().
+        then().
             statusCode(is(200)).
             body("accessToken", notNullValue()).
             body("tokenType", equalTo("Bearer"));
-
-
     }
 }

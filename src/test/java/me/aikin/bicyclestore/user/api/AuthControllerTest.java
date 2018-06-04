@@ -1,6 +1,7 @@
 package me.aikin.bicyclestore.user.api;
 
 import me.aikin.bicyclestore.user.api.auth.playload.LoginRequest;
+import me.aikin.bicyclestore.user.api.auth.playload.SignUpRequest;
 import me.aikin.bicyclestore.user.domain.User;
 import me.aikin.bicyclestore.user.repository.UserRepository;
 import org.junit.jupiter.api.Test;
@@ -43,4 +44,23 @@ public class AuthControllerTest extends ApiBaseTest {
             body("accessToken", notNullValue()).
             body("tokenType", equalTo("Bearer"));
     }
+
+    @Test
+    public void should_can_signup() {
+        SignUpRequest signUpRequest = SignUpRequest.builder()
+            .name("aikin")
+            .username("aikin")
+            .email("1@aikin.me")
+            .password("xexie@34$345sdk")
+            .build();
+
+        given().
+            body(signUpRequest).
+        when().
+            post("/api/auth/signup").
+        then().
+            statusCode(is(201)).
+            header("location", notNullValue());
+    }
+
 }

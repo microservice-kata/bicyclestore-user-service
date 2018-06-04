@@ -81,7 +81,7 @@ public class AuthControllerTest extends ApiBaseTest {
     }
 
     @Test
-    @Transactional // TODO: should fix could not initialize proxy - no Session
+    @Transactional // TODO: should fix could not initialize proxy - no Session https://stackoverflow.com/questions/46810929/how-to-use-fetchtype-lazy-with-manytomany
     public void should_set_user_be_role_user_when_signup() {
         //TODO: refactor: should setup role by default migration seed
         Role roleAdmin = Role.builder().name(RoleName.ROLE_ADMIN).build();

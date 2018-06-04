@@ -4,8 +4,12 @@ package me.aikin.bicyclestore.user.api.auth;
 import me.aikin.bicyclestore.user.api.auth.playload.JwtAuthenticationResponse;
 import me.aikin.bicyclestore.user.api.auth.playload.LoginRequest;
 import me.aikin.bicyclestore.user.api.auth.playload.SignUpRequest;
+import me.aikin.bicyclestore.user.domain.Role;
+import me.aikin.bicyclestore.user.domain.RoleName;
 import me.aikin.bicyclestore.user.domain.User;
+import me.aikin.bicyclestore.user.exception.AppException;
 import me.aikin.bicyclestore.user.playload.ApiResponse;
+import me.aikin.bicyclestore.user.repository.RoleRepository;
 import me.aikin.bicyclestore.user.repository.UserRepository;
 import me.aikin.bicyclestore.user.security.JwtTokenProvider;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -24,6 +28,7 @@ import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 import javax.validation.Valid;
 import java.net.URI;
+import java.util.Collections;
 
 @RestController
 @RequestMapping("/api/auth")
@@ -39,6 +44,9 @@ public class AuthController {
 
     @Autowired
     private UserRepository userRepository;
+
+    @Autowired
+    private RoleRepository roleRepository;
 
     @PostMapping("/signin")
     public ResponseEntity<?> authenticateUser(@Valid @RequestBody LoginRequest loginRequest) {
@@ -67,6 +75,9 @@ public class AuthController {
                 HttpStatus.BAD_REQUEST);
         }
 
+        Role userRole = roleRepository.findByName(RoleName.ROLE_USER)
+            .orElseThrow(() -> new AppException("User Role not set."));
+
         User user = User.builder()
             .name(signUpRequest.getName())
             .email(signUpRequest.getEmail())
@@ -74,7 +85,9 @@ public class AuthController {
             .password(passwordEncoder.encode(signUpRequest.getPassword()))
             .build();
 
-        User savedUser = userRepository.save(user);
+        user.setRoles(Collections.singleton(userRole));
+
+        User savedUser = userRepository.saveAndFlush(user);
 
         URI location = ServletUriComponentsBuilder
             .fromCurrentContextPath().path("/users/{username}")

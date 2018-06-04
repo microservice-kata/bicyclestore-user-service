@@ -2,13 +2,21 @@ package me.aikin.bicyclestore.user.api;
 
 import me.aikin.bicyclestore.user.api.auth.playload.LoginRequest;
 import me.aikin.bicyclestore.user.api.auth.playload.SignUpRequest;
+import me.aikin.bicyclestore.user.domain.Role;
+import me.aikin.bicyclestore.user.domain.RoleName;
 import me.aikin.bicyclestore.user.domain.User;
+import me.aikin.bicyclestore.user.repository.RoleRepository;
 import me.aikin.bicyclestore.user.repository.UserRepository;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.transaction.annotation.Transactional;
+
+import java.util.Optional;
 
 import static org.hamcrest.CoreMatchers.*;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 public class AuthControllerTest extends ApiBaseTest {
 
@@ -17,6 +25,9 @@ public class AuthControllerTest extends ApiBaseTest {
 
     @Autowired
     private PasswordEncoder passwordEncoder;
+
+    @Autowired
+    private RoleRepository roleRepository;
 
     @Test
     public void should_can_signin() {
@@ -47,6 +58,12 @@ public class AuthControllerTest extends ApiBaseTest {
 
     @Test
     public void should_can_signup() {
+        //TODO: refactor: should setup role by default migration seed
+        Role roleAdmin = Role.builder().name(RoleName.ROLE_ADMIN).build();
+        Role roleUser = Role.builder().name(RoleName.ROLE_USER).build();
+        roleRepository.saveAndFlush(roleUser);
+        roleRepository.saveAndFlush(roleAdmin);
+
         SignUpRequest signUpRequest = SignUpRequest.builder()
             .name("aikin")
             .username("aikin")
@@ -61,6 +78,37 @@ public class AuthControllerTest extends ApiBaseTest {
         then().
             statusCode(is(201)).
             header("location", equalTo("http://localhost/users/aikin"));
+    }
+
+    @Test
+    @Transactional // TODO: should fix could not initialize proxy - no Session
+    public void should_set_user_be_role_user_when_signup() {
+        //TODO: refactor: should setup role by default migration seed
+        Role roleAdmin = Role.builder().name(RoleName.ROLE_ADMIN).build();
+        Role roleUser = Role.builder().name(RoleName.ROLE_USER).build();
+        roleRepository.saveAndFlush(roleUser);
+        roleRepository.saveAndFlush(roleAdmin);
+
+        SignUpRequest signUpRequest = SignUpRequest.builder()
+            .name("aikin")
+            .username("aikin")
+            .email("1@aikin.me")
+            .password("xexie@34$345sdk")
+            .build();
+
+        given().
+            body(signUpRequest).
+        when().
+            post("/api/auth/signup").
+        then().
+            statusCode(is(201)).
+            header("location", equalTo("http://localhost/users/aikin"));
+
+        Optional<User> user = userRepository.findByUsernameOrEmail(signUpRequest.getUsername(), signUpRequest.getEmail());
+
+        assertTrue(user.isPresent());
+        assertEquals(1, user.get().getRoles().size());
+        assertEquals(RoleName.ROLE_USER, user.get().getRoles().stream().findFirst().get().getName());
     }
 
     @Test

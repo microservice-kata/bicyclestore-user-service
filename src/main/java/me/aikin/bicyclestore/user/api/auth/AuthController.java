@@ -9,6 +9,7 @@ import me.aikin.bicyclestore.user.playload.ApiResponse;
 import me.aikin.bicyclestore.user.repository.UserRepository;
 import me.aikin.bicyclestore.user.security.JwtTokenProvider;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
@@ -57,6 +58,11 @@ public class AuthController {
 
     @PostMapping("/signup")
     public ResponseEntity<?> registerUser(@Valid @RequestBody SignUpRequest signUpRequest) {
+        if (userRepository.existsByUsername(signUpRequest.getUsername())) {
+            return new ResponseEntity(new ApiResponse(false, "Username is already taken!"),
+                HttpStatus.BAD_REQUEST);
+        }
+
         User user = User.builder()
             .name(signUpRequest.getName())
             .email(signUpRequest.getEmail())

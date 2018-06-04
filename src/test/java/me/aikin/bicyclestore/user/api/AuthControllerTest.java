@@ -60,7 +60,7 @@ public class AuthControllerTest extends ApiBaseTest {
             post("/api/auth/signup").
         then().
             statusCode(is(201)).
-            header("location", notNullValue());
+            header("location", equalTo("http://localhost/users/aikin"));
     }
 
     @Test

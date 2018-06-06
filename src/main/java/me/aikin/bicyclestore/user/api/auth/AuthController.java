@@ -4,14 +4,12 @@ package me.aikin.bicyclestore.user.api.auth;
 import me.aikin.bicyclestore.user.api.auth.playload.JwtAuthenticationResponse;
 import me.aikin.bicyclestore.user.api.auth.playload.LoginRequest;
 import me.aikin.bicyclestore.user.api.auth.playload.SignUpRequest;
-import me.aikin.bicyclestore.user.domain.Role;
-import me.aikin.bicyclestore.user.domain.RoleName;
 import me.aikin.bicyclestore.user.domain.User;
-import me.aikin.bicyclestore.user.exception.AppException;
 import me.aikin.bicyclestore.user.playload.ApiResponse;
 import me.aikin.bicyclestore.user.repository.RoleRepository;
 import me.aikin.bicyclestore.user.repository.UserRepository;
 import me.aikin.bicyclestore.user.security.JwtTokenProvider;
+import me.aikin.bicyclestore.user.services.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -28,7 +26,6 @@ import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 import javax.validation.Valid;
 import java.net.URI;
-import java.util.Collections;
 
 @RestController
 @RequestMapping("/api/auth")
@@ -48,6 +45,9 @@ public class AuthController {
     @Autowired
     private RoleRepository roleRepository;
 
+    @Autowired
+    private UserService userService;
+
     @PostMapping("/signin")
     public ResponseEntity<?> authenticateUser(@Valid @RequestBody LoginRequest loginRequest) {
 
@@ -66,17 +66,10 @@ public class AuthController {
 
     @PostMapping("/signup")
     public ResponseEntity<?> registerUser(@Valid @RequestBody SignUpRequest signUpRequest) {
-        if (userRepository.existsByUsername(signUpRequest.getUsername())) {
-            return new ResponseEntity(new ApiResponse(false, "Username is already taken!"),
-                HttpStatus.BAD_REQUEST);
+        if (userRepository.existsByUsername(signUpRequest.getUsername()) ||
+            userRepository.existsByEmail(signUpRequest.getEmail())) {
+            return new ResponseEntity<>(new ApiResponse(false, "Username is already taken!"), HttpStatus.BAD_REQUEST);
         }
-        if (userRepository.existsByEmail(signUpRequest.getEmail())) {
-            return new ResponseEntity(new ApiResponse(false, "Username is already taken!"),
-                HttpStatus.BAD_REQUEST);
-        }
-
-        Role userRole = roleRepository.findByName(RoleName.ROLE_USER)
-            .orElseThrow(() -> new AppException("User Role not set."));
 
         User user = User.builder()
             .name(signUpRequest.getName())
@@ -84,16 +77,14 @@ public class AuthController {
             .username(signUpRequest.getUsername())
             .password(passwordEncoder.encode(signUpRequest.getPassword()))
             .build();
-
-        user.setRoles(Collections.singleton(userRole));
-
-        User savedUser = userRepository.saveAndFlush(user);
+        User savedUser = userService.createUser(user);
 
         URI location = ServletUriComponentsBuilder
             .fromCurrentContextPath().path("/users/{username}")
             .buildAndExpand(savedUser.getUsername()).toUri();
 
-        return ResponseEntity.created(location).body(new ApiResponse(true, "User registered successfully"));
+        return ResponseEntity.created(location)
+            .body(new ApiResponse(true, "User registered successfully"));
     }
 
 }

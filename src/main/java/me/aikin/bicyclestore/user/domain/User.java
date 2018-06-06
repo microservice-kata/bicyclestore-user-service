@@ -26,6 +26,8 @@ import java.util.Set;
     })
 })
 public class User extends DateAudit {
+    private static final long serialVersionUID = 8736768023230458002L;
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;

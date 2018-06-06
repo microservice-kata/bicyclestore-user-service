@@ -19,6 +19,8 @@ import java.time.Instant;
 )
 public abstract class DateAudit implements Serializable {
 
+    private static final long serialVersionUID = -183435234617739584L;
+
     @CreatedDate
     private Instant createdAt;
 

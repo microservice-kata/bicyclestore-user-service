@@ -5,7 +5,7 @@ import org.springframework.data.annotation.CreatedBy;
 import org.springframework.data.annotation.LastModifiedBy;
 
 import javax.persistence.MappedSuperclass;
-
+// TODO: should remove
 @MappedSuperclass
 @JsonIgnoreProperties(
     value = {"createdBy", "updatedBy"},

@@ -6,7 +6,6 @@ import me.aikin.bicyclestore.user.api.auth.playload.LoginRequest;
 import me.aikin.bicyclestore.user.api.auth.playload.SignUpRequest;
 import me.aikin.bicyclestore.user.domain.User;
 import me.aikin.bicyclestore.user.playload.ApiResponse;
-import me.aikin.bicyclestore.user.repository.RoleRepository;
 import me.aikin.bicyclestore.user.repository.UserRepository;
 import me.aikin.bicyclestore.user.security.JwtTokenProvider;
 import me.aikin.bicyclestore.user.services.UserService;
@@ -41,9 +40,6 @@ public class AuthController {
 
     @Autowired
     private UserRepository userRepository;
-
-    @Autowired
-    private RoleRepository roleRepository;
 
     @Autowired
     private UserService userService;

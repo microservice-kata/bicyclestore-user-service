@@ -1,5 +1,8 @@
 package me.aikin.bicyclestore.user.security;
 
+import io.jsonwebtoken.ExpiredJwtException;
+import io.jsonwebtoken.MalformedJwtException;
+import io.jsonwebtoken.SignatureException;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
@@ -38,8 +41,9 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
 
                 SecurityContextHolder.getContext().setAuthentication(authentication);
             }
-        } catch (Exception ex) {
+        } catch (ExpiredJwtException | SignatureException | MalformedJwtException ex) {
             log.error("Could not set user authentication in security context", ex);
+            response.sendError(HttpServletResponse.SC_UNAUTHORIZED, "Token expired.");
         }
 
         filterChain.doFilter(request, response);

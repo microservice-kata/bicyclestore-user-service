@@ -2,6 +2,7 @@ package me.aikin.bicyclestore.user.security;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import lombok.*;
 import me.aikin.bicyclestore.user.domain.User;
 import org.springframework.security.core.GrantedAuthority;
@@ -33,6 +34,7 @@ public class UserPrincipal implements UserDetails {
     @JsonIgnore
     private String password;
 
+    @JsonDeserialize(using = SimpleGrantedAuthorityDeserializer.class)
     private Collection<? extends GrantedAuthority> authorities;
 
     public static UserPrincipal create(User user) {

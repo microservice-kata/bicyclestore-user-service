@@ -2,9 +2,10 @@ package me.aikin.bicyclestore.user.security.jwt;
 
 import io.jsonwebtoken.*;
 import lombok.extern.slf4j.Slf4j;
-import me.aikin.bicyclestore.user.utils.JsonHelper;
+import me.aikin.bicyclestore.user.utils.json.JsonHelper;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
+import org.springframework.util.StringUtils;
 
 import java.util.Date;
 import java.util.Map;
@@ -41,6 +42,9 @@ public class JwtTokenRepositoryImpl implements JwtTokenRepository  {
 
     @Override
     public boolean validateToken(String jwtToken) {
+        if (!StringUtils.hasText(jwtToken)) {
+            return false;
+        }
         try {
             Jwts.parser().setSigningKey(jwtSecret).parseClaimsJws(jwtToken);
             return true;

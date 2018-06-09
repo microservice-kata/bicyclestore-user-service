@@ -2,7 +2,7 @@ package me.aikin.bicyclestore.user.security.jwt;
 
 import me.aikin.bicyclestore.user.exception.InvalidCredentialException;
 import me.aikin.bicyclestore.user.security.UserPrincipal;
-import me.aikin.bicyclestore.user.utils.JsonHelper;
+import me.aikin.bicyclestore.user.utils.json.JsonHelper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.core.Authentication;
@@ -36,21 +36,24 @@ public class AuthServiceImpl implements AuthService {
     @Override
     public boolean validateToken(HttpServletRequest request) {
         String jwtToken = getJwtFromRequest(request);
-        return StringUtils.hasText(jwtToken) && jwtTokenRepository.validateToken(jwtToken);
+        return jwtTokenRepository.validateToken(jwtToken);
     }
 
     @Override
     public UserPrincipal getAuthorizedCurrentUser(HttpServletRequest request) {
         String jwtToken = getJwtFromRequest(request);
-        return JsonHelper.parseJson(jwtTokenRepository.extractAuthorizedPayload(jwtToken), UserPrincipal.class);
+        if (jwtTokenRepository.validateToken(jwtToken)) {
+            return JsonHelper.parseJson(jwtTokenRepository.extractAuthorizedPayload(jwtToken), UserPrincipal.class);
+        }
+        throw new InvalidCredentialException();
     }
 
     private String getJwtFromRequest(HttpServletRequest request) {
         String bearerToken = request.getHeader(tokenKey);
         String prefix = String.join(" ", tokenPrefix);
-        if (validateToken(request) && StringUtils.hasText(bearerToken) && bearerToken.startsWith(prefix)) {
+        if (StringUtils.hasText(bearerToken) && bearerToken.startsWith(prefix)) {
             return bearerToken.substring(prefix.length(), bearerToken.length());
         }
-        throw new InvalidCredentialException();
+        return null;
     }
 }

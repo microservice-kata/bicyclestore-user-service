@@ -15,11 +15,10 @@ public class UserController {
     @GetMapping("/user/me")
     @PreAuthorize("hasRole('USER')")
     public UserSummary getCurrentUser(@CurrentUser UserPrincipal currentUser) {
-        UserSummary userSummary = UserSummary.builder()
+        return UserSummary.builder()
             .id(currentUser.getId())
             .name(currentUser.getName())
             .username(currentUser.getUsername())
             .build();
-        return userSummary;
     }
 }

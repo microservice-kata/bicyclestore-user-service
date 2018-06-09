@@ -15,3 +15,5 @@ security:
   jwt:
     secret: PLACE_HOLDER
     expiration-in-seconds: PLACE_HOLDER
+    token-prefix: PLACE_HOLDER
+    toke-key: PLACE_HOLDER

@@ -2,11 +2,11 @@ package me.aikin.bicyclestore.user.api.user.playload;
 
 import lombok.*;
 
-@NoArgsConstructor
-@AllArgsConstructor
 @Setter
 @Getter
 @Builder
+@NoArgsConstructor
+@AllArgsConstructor
 public class UserSummary {
     private Long id;
     private String username;

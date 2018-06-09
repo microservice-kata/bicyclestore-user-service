@@ -6,18 +6,26 @@ import me.aikin.bicyclestore.user.utils.JsonHelper;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Component;
+import org.springframework.util.StringUtils;
 
+import javax.servlet.http.HttpServletRequest;
 import java.util.Date;
 import java.util.Map;
 
-@Component
 @Slf4j
+@Component
 public class JwtTokenProvider {
     @Value("${security.jwt.secret:_SEMS_JWT_SECRET_201805260909999}")
     private String jwtSecret;
 
     @Value("${security.jwt.expiration-in-seconds}")
     private long jwtExpirationInSeconds;
+
+    @Value("${security.jwt.token-prefix:Bearer}")
+    private String tokenPrefix;
+
+    @Value("${security.jwt.token-key:Authorization}")
+    private String tokenKey;
 
 
     public String generateToken(Authentication authentication) {
@@ -52,20 +60,20 @@ public class JwtTokenProvider {
         return false;
     }
 
-    public Long getUserIdFromJWT(String token) {
-        Claims claims = Jwts.parser()
-            .setSigningKey(jwtSecret)
-            .parseClaimsJws(token)
-            .getBody();
-
-        return Long.parseLong(claims.getSubject());
-    }
-
     public UserPrincipal getAuthorizedCurrentUser(String token) {
         Claims claims = Jwts.parser()
             .setSigningKey(jwtSecret)
             .parseClaimsJws(token)
             .getBody();
         return JsonHelper.parseJson(JsonHelper.toJson(claims), UserPrincipal.class);
+    }
+
+    public String getJwtFromRequest(HttpServletRequest request) {
+        String bearerToken = request.getHeader(tokenKey);
+        String prefix = String.join(" ", tokenPrefix);
+        if (StringUtils.hasText(bearerToken) && bearerToken.startsWith(prefix)) {
+            return bearerToken.substring(prefix.length(), bearerToken.length());
+        }
+        return null;
     }
 }

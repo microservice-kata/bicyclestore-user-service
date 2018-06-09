@@ -25,6 +25,9 @@ security:
   jwt:
     secret: ${JWT_SECRET:_SEMS_JWT_SECRET_201805260909999}
     expiration-in-seconds: 600000
+    token-prefix: Bearer
+    toke-key: Authorization
+
 logging:
   level: debug
 

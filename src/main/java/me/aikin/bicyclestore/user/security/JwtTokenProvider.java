@@ -2,11 +2,13 @@ package me.aikin.bicyclestore.user.security;
 
 import io.jsonwebtoken.*;
 import lombok.extern.slf4j.Slf4j;
+import me.aikin.bicyclestore.user.utils.JsonHelper;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Component;
 
 import java.util.Date;
+import java.util.Map;
 
 @Component
 @Slf4j
@@ -23,8 +25,9 @@ public class JwtTokenProvider {
         Date now = new Date();
         Date expiryDate = new Date(now.getTime() + jwtExpirationInSeconds);
 
+        Map <String, Object> claims = JsonHelper.parseJson(JsonHelper.toJson(userPrincipal), Map.class);
         return Jwts.builder()
-            .setSubject(Long.toString(userPrincipal.getId()))
+            .setClaims(claims)
             .setIssuedAt(new Date())
             .setExpiration(expiryDate)
             .signWith(SignatureAlgorithm.HS512, jwtSecret)
@@ -56,5 +59,13 @@ public class JwtTokenProvider {
             .getBody();
 
         return Long.parseLong(claims.getSubject());
+    }
+
+    public UserPrincipal getAuthorizedCurrentUser(String token) {
+        Claims claims = Jwts.parser()
+            .setSigningKey(jwtSecret)
+            .parseClaimsJws(token)
+            .getBody();
+        return JsonHelper.parseJson(JsonHelper.toJson(claims), UserPrincipal.class);
     }
 }

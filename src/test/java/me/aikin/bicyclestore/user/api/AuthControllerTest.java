@@ -7,6 +7,8 @@ import me.aikin.bicyclestore.user.domain.RoleName;
 import me.aikin.bicyclestore.user.domain.User;
 import me.aikin.bicyclestore.user.repository.RoleRepository;
 import me.aikin.bicyclestore.user.repository.UserRepository;
+import me.aikin.bicyclestore.user.security.JwtTokenProvider;
+import me.aikin.bicyclestore.user.security.UserPrincipal;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -29,6 +31,9 @@ public class AuthControllerTest extends ApiBaseTest {
     @Autowired
     private RoleRepository roleRepository;
 
+    @Autowired
+    JwtTokenProvider tokenProvider;
+
     @Test
     public void should_can_signin() {
         String rawPassword = "password@aikin";
@@ -46,6 +51,7 @@ public class AuthControllerTest extends ApiBaseTest {
             .password(rawPassword)
             .build();
 
+        String accessToken =
         given().
             body(loginRequest).
         when().
@@ -53,7 +59,14 @@ public class AuthControllerTest extends ApiBaseTest {
         then().
             statusCode(is(200)).
             body("accessToken", notNullValue()).
-            body("tokenType", equalTo("Bearer"));
+            body("tokenType", equalTo("Bearer")).
+        extract().
+            path("accessToken");
+
+        UserPrincipal currentUser = tokenProvider.getAuthorizedCurrentUser(accessToken);
+        assertEquals(currentUser.getId(), user.getId());
+        assertEquals(currentUser.getName(), user.getName());
+        assertEquals(currentUser.getUsername(), user.getUsername());
     }
 
     @Test

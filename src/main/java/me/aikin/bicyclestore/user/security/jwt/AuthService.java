@@ -8,8 +8,6 @@ import javax.servlet.http.HttpServletRequest;
 public interface AuthService {
     String generateToken(Authentication authentication);
 
-    String getJwtFromRequest(HttpServletRequest request);
-
     boolean validateToken(HttpServletRequest request);
 
     UserPrincipal getAuthorizedCurrentUser(HttpServletRequest request);

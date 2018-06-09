@@ -5,13 +5,13 @@ import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
+@Slf4j
 @SpringBootApplication
 @EnableAutoConfiguration
-@Slf4j
-public class App {
+public class BicyclestoreUserServiceApplication {
     public static void main(String[] args) {
 
-        SpringApplication.run(App.class, args);
+        SpringApplication.run(BicyclestoreUserServiceApplication.class, args);
 
         log.info("max memory:{} MB", Runtime.getRuntime().maxMemory() / 1024 / 1024);
         log.info("total memory:{} MB", Runtime.getRuntime().totalMemory() / 1024 / 1024);

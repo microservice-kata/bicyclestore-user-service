@@ -7,7 +7,7 @@ import me.aikin.bicyclestore.user.api.auth.playload.SignUpRequest;
 import me.aikin.bicyclestore.user.domain.User;
 import me.aikin.bicyclestore.user.playload.ApiResponse;
 import me.aikin.bicyclestore.user.repository.UserRepository;
-import me.aikin.bicyclestore.user.security.JwtTokenProvider;
+import me.aikin.bicyclestore.user.security.jwt.AuthService;
 import me.aikin.bicyclestore.user.services.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -33,7 +33,7 @@ public class AuthController {
     private AuthenticationManager authenticationManager;
 
     @Autowired
-    private JwtTokenProvider tokenProvider;
+    private AuthService authService;
 
     @Autowired
     private PasswordEncoder passwordEncoder;
@@ -56,7 +56,7 @@ public class AuthController {
 
         SecurityContextHolder.getContext().setAuthentication(authentication);
 
-        String jwt = tokenProvider.generateToken(authentication);
+        String jwt = authService.generateToken(authentication);
         return ResponseEntity.ok(new JwtAuthenticationResponse(jwt));
     }
 

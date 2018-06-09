@@ -7,8 +7,9 @@ import me.aikin.bicyclestore.user.domain.RoleName;
 import me.aikin.bicyclestore.user.domain.User;
 import me.aikin.bicyclestore.user.repository.RoleRepository;
 import me.aikin.bicyclestore.user.repository.UserRepository;
-import me.aikin.bicyclestore.user.security.JwtTokenProvider;
+import me.aikin.bicyclestore.user.security.jwt.JwtTokenRepository;
 import me.aikin.bicyclestore.user.security.UserPrincipal;
+import me.aikin.bicyclestore.user.utils.JsonHelper;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -32,7 +33,7 @@ public class AuthControllerTest extends ApiBaseTest {
     private RoleRepository roleRepository;
 
     @Autowired
-    JwtTokenProvider tokenProvider;
+    private JwtTokenRepository jwtTokenRepository;
 
     @Test
     public void should_can_signin() {
@@ -63,7 +64,8 @@ public class AuthControllerTest extends ApiBaseTest {
         extract().
             path("accessToken");
 
-        UserPrincipal currentUser = tokenProvider.getAuthorizedCurrentUser(accessToken);
+        String payload = jwtTokenRepository.extractAuthorizedPayload(accessToken);
+        UserPrincipal currentUser = JsonHelper.parseJson(payload, UserPrincipal.class);
         assertEquals(currentUser.getId(), user.getId());
         assertEquals(currentUser.getName(), user.getName());
         assertEquals(currentUser.getUsername(), user.getUsername());

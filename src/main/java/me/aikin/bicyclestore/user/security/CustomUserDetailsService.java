@@ -2,6 +2,7 @@ package me.aikin.bicyclestore.user.security;
 
 import me.aikin.bicyclestore.user.domain.User;
 import me.aikin.bicyclestore.user.repository.UserRepository;
+import me.aikin.bicyclestore.user.security.principal.UserPrincipal;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;

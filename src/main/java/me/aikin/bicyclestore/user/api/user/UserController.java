@@ -1,8 +1,8 @@
 package me.aikin.bicyclestore.user.api.user;
 
 import me.aikin.bicyclestore.user.api.user.playload.UserSummary;
-import me.aikin.bicyclestore.user.security.CurrentUser;
-import me.aikin.bicyclestore.user.security.UserPrincipal;
+import me.aikin.bicyclestore.user.security.principal.CurrentUser;
+import me.aikin.bicyclestore.user.security.principal.UserPrincipal;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;

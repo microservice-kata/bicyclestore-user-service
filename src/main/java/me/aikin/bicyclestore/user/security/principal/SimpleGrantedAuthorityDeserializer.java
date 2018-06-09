@@ -1,4 +1,4 @@
-package me.aikin.bicyclestore.user.security;
+package me.aikin.bicyclestore.user.security.principal;
 
 import com.fasterxml.jackson.core.JsonParser;
 import com.fasterxml.jackson.core.ObjectCodec;

@@ -8,7 +8,7 @@ import me.aikin.bicyclestore.user.domain.User;
 import me.aikin.bicyclestore.user.repository.RoleRepository;
 import me.aikin.bicyclestore.user.repository.UserRepository;
 import me.aikin.bicyclestore.user.security.jwt.JwtTokenRepository;
-import me.aikin.bicyclestore.user.security.UserPrincipal;
+import me.aikin.bicyclestore.user.security.principal.UserPrincipal;
 import me.aikin.bicyclestore.user.utils.json.JsonHelper;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;

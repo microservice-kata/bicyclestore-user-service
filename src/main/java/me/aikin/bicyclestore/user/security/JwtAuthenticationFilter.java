@@ -6,6 +6,7 @@ import io.jsonwebtoken.SignatureException;
 import lombok.extern.slf4j.Slf4j;
 import me.aikin.bicyclestore.user.exception.InvalidCredentialException;
 import me.aikin.bicyclestore.user.security.jwt.AuthService;
+import me.aikin.bicyclestore.user.security.principal.UserPrincipal;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.context.SecurityContextHolder;

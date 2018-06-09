@@ -1,4 +1,4 @@
-package me.aikin.bicyclestore.user.security;
+package me.aikin.bicyclestore.user.security.principal;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;

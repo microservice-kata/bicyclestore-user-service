@@ -1,7 +1,7 @@
 package me.aikin.bicyclestore.user.security.jwt;
 
 import me.aikin.bicyclestore.user.exception.InvalidCredentialException;
-import me.aikin.bicyclestore.user.security.UserPrincipal;
+import me.aikin.bicyclestore.user.security.principal.UserPrincipal;
 import me.aikin.bicyclestore.user.utils.json.JsonHelper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;

@@ -43,7 +43,7 @@ afterEvaluate {
             rule {
                 enabled = true
                 element = "CLASS"
-                includes = ["me.aikin.seed.AboutController"]
+                includes = ["me.aikin.bicyclestore.user.api.auth.AuthController"]
 
                 limit {
                     counter = "BRANCH"

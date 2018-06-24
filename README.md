@@ -15,6 +15,7 @@
  - [x] Version Control System：Git
  - [x] Build Tool：Gradle
  - [x] Config Management：application.yml
+ - [x] Database schema management(flyway)
  - [x] Env Management： Vagrant/Docker
     - [x] `memory size setup`
     - [ ] `network port link`
@@ -34,12 +35,11 @@
   - [ ] Contract Test
   
 ### 应用层
-  - [x] Database schema management(flyway)
   - [x] DIP(Spring Container)  
   - [x] AOP(Spring AOP)
-  - [x] ORM(mybatis)
-  - [ ] Security(Spring Security)  
-  - [ ] Session management
+  - [x] ORM(Mybatis)
+  - [x] Security(Spring Security)  
+  - [x] Session management
 
 ### 持续交付：
   - [ ] GoCD/Jenkins(pipeline as code)

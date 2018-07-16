@@ -11,12 +11,13 @@ import javax.validation.constraints.Size;
 import java.util.HashSet;
 import java.util.Set;
 
-@NoArgsConstructor
-@AllArgsConstructor
+
 @Setter
 @Getter
 @Builder
 @Entity
+@NoArgsConstructor
+@AllArgsConstructor
 @Table(name = "USER", uniqueConstraints = {
     @UniqueConstraint(columnNames = {
         "username"

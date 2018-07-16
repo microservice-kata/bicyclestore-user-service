@@ -8,7 +8,7 @@ import me.aikin.bicyclestore.user.domain.User;
 import me.aikin.bicyclestore.user.playload.ApiResponse;
 import me.aikin.bicyclestore.user.repository.UserRepository;
 import me.aikin.bicyclestore.user.security.jwt.AuthService;
-import me.aikin.bicyclestore.user.services.UserService;
+import me.aikin.bicyclestore.user.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;

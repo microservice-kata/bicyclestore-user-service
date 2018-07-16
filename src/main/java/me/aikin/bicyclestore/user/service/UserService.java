@@ -1,4 +1,4 @@
-package me.aikin.bicyclestore.user.services;
+package me.aikin.bicyclestore.user.service;
 
 import me.aikin.bicyclestore.user.domain.Role;
 import me.aikin.bicyclestore.user.domain.RoleName;

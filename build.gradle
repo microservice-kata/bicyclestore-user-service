@@ -47,6 +47,7 @@ ext {
     lombokVersion = "1.16.20"
     springExtensionVersion = "1.0.3"
     springMockMvCVersion = "2.9.0"
+    logstashVersion = "4.9"
 }
 
 dependencies {
@@ -57,6 +58,8 @@ dependencies {
 
     compile("mysql:mysql-connector-java:${mysqlConnectorVersion}")
     compile("org.projectlombok:lombok:${lombokVersion}")
+    compile("net.logstash.logback:logstash-logback-encoder:${logstashVersion}")
+
 
     testCompile("org.springframework.boot:spring-boot-starter-test")
     testCompile('org.springframework.security:spring-security-test')
@@ -80,6 +83,8 @@ processResources {
     include "application.yml"
     include "application-${env}.yml"
     include "db/migration/**"
+    include "logback.xml"
+    include "logback-legacy.xml"
 }
 build.dependsOn processResources
 bootRun.dependsOn flywayMigrate

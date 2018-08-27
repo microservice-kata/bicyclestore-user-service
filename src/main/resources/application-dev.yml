@@ -14,3 +14,6 @@ security:
     expiration-in-seconds: 600000
     token-prefix: Bearer
     toke-key: Authorization
+
+logging:
+    config: classpath:logback-legacy.xml

@@ -1,6 +1,7 @@
 package me.aikin.bicyclestore.user.api.auth;
 
 
+import lombok.extern.slf4j.Slf4j;
 import me.aikin.bicyclestore.user.api.auth.playload.JwtAuthenticationResponse;
 import me.aikin.bicyclestore.user.api.auth.playload.LoginRequest;
 import me.aikin.bicyclestore.user.api.auth.playload.SignUpRequest;
@@ -26,6 +27,7 @@ import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 import javax.validation.Valid;
 import java.net.URI;
 
+@Slf4j
 @RestController
 @RequestMapping("/api/auth")
 public class AuthController {
@@ -62,6 +64,8 @@ public class AuthController {
 
     @PostMapping("/signup")
     public ResponseEntity registerUser(@Valid @RequestBody SignUpRequest signUpRequest) {
+        log.info("Staring register user, username={}", signUpRequest.getUsername());
+
         if (userRepository.existsByUsername(signUpRequest.getUsername()) ||
             userRepository.existsByEmail(signUpRequest.getEmail())) {
             return new ResponseEntity<>(new ApiResponse(false, "Username is already taken!"), HttpStatus.BAD_REQUEST);
@@ -78,6 +82,8 @@ public class AuthController {
         URI location = ServletUriComponentsBuilder
             .fromCurrentContextPath().path("/users/{username}")
             .buildAndExpand(savedUser.getUsername()).toUri();
+
+        log.info("End register user, username={}", signUpRequest.getUsername());
 
         return ResponseEntity.created(location)
             .body(new ApiResponse(true, "User registered successfully"));

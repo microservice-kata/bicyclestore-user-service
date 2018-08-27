@@ -1,0 +1,50 @@
+<configuration>
+    <appender name="STDOUT" class="ch.qos.logback.core.ConsoleAppender">
+        <encoder>
+            <pattern>[V][%d][%-5p][%t][%c{0}][%M][%X{uuid}][%X{app_version}][%X{user_name}][%X{session_id}] - %m%n</pattern>
+        </encoder>
+    </appender>
+
+    <property name="LOG_FILE_NAME" value="bicyclestroe-user-service" />
+    <property name="LOG_DIRECTORY" value="log" />
+
+    <appender name="jsonAppender" class="ch.qos.logback.core.rolling.RollingFileAppender">
+        <file>${LOG_DIRECTORY}/${LOG_FILE_NAME}.log</file>
+        <encoder class="net.logstash.logback.encoder.LoggingEventCompositeJsonEncoder">
+            <providers>
+                <pattern>
+                    <pattern>
+                        {
+                        "tags": ["bicyclestore"],
+                        "project": "bicyclestore-user-service",
+                        "timestamp": "%date{\"yyyy-MM-dd'T'HH:mm:ss,SSSZ\"}",
+                        "log_level": "%level",
+                        "thread": "%thread",
+                        "class_name": "%class",
+                        "line_number": "%line",
+                        "log": "%message",
+                        "stack_trace": "%exception",
+                        "username": "%X{user_name}",
+                        "uuid": "%X{uuid}",
+                        "app_version": "%X{app_version}",
+                        "session_id": "%X{session_id}",
+                        "module_name": "%X{module_name}"
+                        }
+                    </pattern>
+                </pattern>
+            </providers>
+        </encoder>
+        <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
+            <fileNamePattern>${LOG_DIRECTORY}/${LOG_FILE_NAME}.%d{yyyy-MM-dd}.log</fileNamePattern>
+            <maxHistory>30</maxHistory>
+            <totalSizeCap>20GB</totalSizeCap>
+        </rollingPolicy>
+    </appender>
+    <logger name="jsonLogger" additivity="false" level="DEBUG">
+        <appender-ref ref="jsonAppender"/>
+    </logger>
+    <root level="INFO">
+        <appender-ref ref="STDOUT" />
+        <appender-ref ref="jsonAppender"/>
+    </root>
+</configuration>

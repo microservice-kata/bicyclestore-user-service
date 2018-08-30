@@ -2,18 +2,5 @@ server:
   port: 8080
 
 spring:
-  datasource:
-    url: PLACE_HOLDER
-    username: PLACE_HOLDER
-    password: PLACE_HOLDER
-    name: PLACE_HOLDER
-    driver-class-name: com.mysql.cj.jdbc.Driver
   profiles:
-    active: PLACE_HOLDER
-
-security:
-  jwt:
-    secret: PLACE_HOLDER
-    expiration-in-seconds: PLACE_HOLDER
-    token-prefix: PLACE_HOLDER
-    toke-key: PLACE_HOLDER
+    active: @PROFILE_PLACE_HOLDER@

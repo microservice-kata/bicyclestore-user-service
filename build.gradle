@@ -1,3 +1,5 @@
+import org.apache.tools.ant.filters.ReplaceTokens
+
 buildscript {
     repositories {
         mavenCentral()
@@ -83,8 +85,12 @@ processResources {
     include "application.yml"
     include "application-${env}.yml"
     include "db/migration/**"
-    include "logback.xml"
     include "logback-legacy.xml"
+    filesMatching("**/application.yml") {
+        filter(ReplaceTokens, tokens: [
+            'PROFILE_PLACE_HOLDER': "${env}".toString(),
+        ])
+    }
 }
 build.dependsOn processResources
 bootRun.dependsOn flywayMigrate

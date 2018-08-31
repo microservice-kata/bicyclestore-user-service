@@ -1,0 +1,21 @@
+version: '1.0.0'
+services:
+  db:
+    environment:
+      MYSQL_DATABASE: bicyclestore_user_dev
+    tty: true
+    command:
+      - --character-set-server=utf8mb4
+      - --collation-server=utf8mb4_unicode_ci
+    image: mysql:5.7
+    stdin_open: true
+
+  bicyclesotre-user-service:
+    build: .
+    ports:
+      - 60001:8080/tcp
+    tty: true
+    stdin_open: true
+    links:
+      - db:mysql
+

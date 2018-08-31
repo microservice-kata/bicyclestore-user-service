@@ -18,6 +18,9 @@ public class SimpleGrantedAuthorityDeserializer extends JsonDeserializer<Collect
         ObjectCodec oc = jsonParser.getCodec();
         JsonNode node = oc.readTree(jsonParser);
         Iterator<JsonNode> elements = node.elements();
+        if (!elements.hasNext()) {
+           return Collections.emptyList();
+        }
         return Stream.of(elements)
             .map(element -> {
                 JsonNode next = elements.next();

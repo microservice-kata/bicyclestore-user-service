@@ -8,7 +8,7 @@ import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 import javax.persistence.EntityListeners;
 import javax.persistence.MappedSuperclass;
 import java.io.Serializable;
-import java.time.Instant;
+import java.sql.Timestamp;
 
 
 @MappedSuperclass
@@ -22,24 +22,24 @@ public abstract class DateAudit implements Serializable {
     private static final long serialVersionUID = -183435234617739584L;
 
     @CreatedDate
-    private Instant createdAt;
+    private Timestamp createdAt;
 
     @LastModifiedDate
-    private Instant updatedAt;
+    private Timestamp updatedAt;
 
-    public Instant getCreatedAt() {
+    public Timestamp getCreatedAt() {
         return createdAt;
     }
 
-    public void setCreatedAt(Instant createdAt) {
+    public void setCreatedAt(Timestamp createdAt) {
         this.createdAt = createdAt;
     }
 
-    public Instant getUpdatedAt() {
+    public Timestamp getUpdatedAt() {
         return updatedAt;
     }
 
-    public void setUpdatedAt(Instant updatedAt) {
+    public void setUpdatedAt(Timestamp updatedAt) {
         this.updatedAt = updatedAt;
     }
 

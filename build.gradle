@@ -85,7 +85,7 @@ processResources {
     include "application.yml"
     include "application-${env}.yml"
     include "db/migration/**"
-    include "logback-legacy.xml"
+    include "logback.xml"
     filesMatching("**/application.yml") {
         filter(ReplaceTokens, tokens: [
             'PROFILE_PLACE_HOLDER': "${env}".toString(),

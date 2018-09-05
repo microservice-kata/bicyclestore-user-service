@@ -7,6 +7,12 @@ spring:
     password:
     name: bicyclestore_user_dev
     driver-class-name: com.mysql.cj.jdbc.Driver
+  jpa:
+    properties:
+      hibernate:
+        show_sql: false
+        type: trace
+
 
 security:
   jwt:
@@ -16,4 +22,4 @@ security:
     toke-key: Authorization
 
 logging:
-    config: classpath:logback-legacy.xml
+    config: classpath:logback.xml

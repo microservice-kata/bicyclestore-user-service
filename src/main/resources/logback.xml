@@ -1,12 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
 <configuration>
+    <property name="LOG_FILE_NAME" value="${log.file.name:-bicyclestore_user_service}" />
+    <property name="LOG_DIRECTORY" value="${log.dir:-log}" />
+    <property name="LOG_LEVEL" value="${log.level:-INFO}" />
+
     <appender name="STDOUT" class="ch.qos.logback.core.ConsoleAppender">
         <encoder>
-            <pattern>[V][%d][%-5p][%t][%c{0}][%M][%X{uuid}][%X{app_version}][%X{user_name}][%X{session_id}] - %m%n</pattern>
+            <pattern>[U][%d][%-5p][%t][%c{0}][%M] - %m%n</pattern>
         </encoder>
     </appender>
-
-    <property name="LOG_FILE_NAME" value="bicyclestroe-user-service" />
-    <property name="LOG_DIRECTORY" value="log" />
 
     <appender name="jsonAppender" class="ch.qos.logback.core.rolling.RollingFileAppender">
         <file>${LOG_DIRECTORY}/${LOG_FILE_NAME}.log</file>
@@ -15,7 +17,7 @@
                 <pattern>
                     <pattern>
                         {
-                        "tags": ["bicyclestore"],
+                        "tags": ["bicyclestore", "bicyclestore-user"],
                         "project": "bicyclestore-user-service",
                         "timestamp": "%date{\"yyyy-MM-dd'T'HH:mm:ss,SSSZ\"}",
                         "log_level": "%level",
@@ -23,12 +25,7 @@
                         "class_name": "%class",
                         "line_number": "%line",
                         "log": "%message",
-                        "stack_trace": "%exception",
-                        "username": "%X{user_name}",
-                        "uuid": "%X{uuid}",
-                        "app_version": "%X{app_version}",
-                        "session_id": "%X{session_id}",
-                        "module_name": "%X{module_name}"
+                        "stack_trace": "%exception"
                         }
                     </pattern>
                 </pattern>
@@ -37,13 +34,15 @@
         <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
             <fileNamePattern>${LOG_DIRECTORY}/${LOG_FILE_NAME}.%d{yyyy-MM-dd}.log</fileNamePattern>
             <maxHistory>30</maxHistory>
-            <totalSizeCap>20GB</totalSizeCap>
+            <totalSizeCap>8GB</totalSizeCap>
         </rollingPolicy>
     </appender>
+
     <logger name="jsonLogger" additivity="false" level="DEBUG">
         <appender-ref ref="jsonAppender"/>
     </logger>
-    <root level="INFO">
+
+    <root level="${LOG_LEVEL}">
         <appender-ref ref="STDOUT" />
         <appender-ref ref="jsonAppender"/>
     </root>

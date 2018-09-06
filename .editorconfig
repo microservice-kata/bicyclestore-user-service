@@ -9,7 +9,7 @@ root = true
 indent_style = space
 indent_size = 4
 
-[*.yml]
+[*.{yml,json,sql}]
 indent_style = space
 indent_size = 2
 

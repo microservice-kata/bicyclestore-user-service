@@ -1,17 +1,17 @@
 package me.aikin.bicyclestore.user.api;
 
 import org.hibernate.Session;
-import org.hibernate.metadata.ClassMetadata;
-import org.hibernate.persister.entity.AbstractEntityPersister;
+import org.hibernate.metamodel.internal.EntityTypeImpl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Profile;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import javax.persistence.EntityManager;
+import javax.persistence.metamodel.EntityType;
+import javax.persistence.metamodel.Metamodel;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Map;
 
 @Service
 @Profile("test")
@@ -23,11 +23,11 @@ public class TruncateDatabaseService {
     public void truncate() {
         List<String> tableNames = new ArrayList<>();
         Session session = entityManager.unwrap(Session.class);
-        Map<String, ClassMetadata> hibernateMetadata = session.getSessionFactory().getAllClassMetadata();
+        Metamodel metamodel = session.getEntityManagerFactory().getMetamodel();
 
-        for (ClassMetadata classMetadata : hibernateMetadata.values()) {
-            AbstractEntityPersister aep = (AbstractEntityPersister) classMetadata;
-            tableNames.add(aep.getTableName());
+        for (EntityType<?> classMetadata : metamodel.getEntities()) {
+            EntityTypeImpl eti = (EntityTypeImpl) classMetadata;
+            tableNames.add(eti.getName());
         }
 
         entityManager.createNativeQuery("SET FOREIGN_KEY_CHECKS = FALSE").executeUpdate();

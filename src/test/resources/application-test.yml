@@ -1,6 +1,3 @@
-server:
-  port: 8081
-
 spring:
   profiles:
     active: test
@@ -27,7 +24,4 @@ security:
     expiration-in-seconds: 600000
     token-prefix: Bearer
     toke-key: Authorization
-
-logging:
-  level: debug
 

@@ -1,6 +1,6 @@
 server:
-  port: 8080
+  port: 63003
 
 spring:
   profiles:
-    active: @PROFILE_PLACE_HOLDER@
+    active: dev

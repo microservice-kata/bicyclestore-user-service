@@ -5,14 +5,15 @@ spring:
     url: jdbc:mysql://127.0.0.1:3306/bicyclestore_user_dev
     username: root
     password:
-    name: bicyclestore_user_dev
-    driver-class-name: com.mysql.cj.jdbc.Driver
   jpa:
     properties:
       hibernate:
         show_sql: false
         type: trace
 
+eureka:
+  client:
+    enabled: false
 
 security:
   jwt:
@@ -20,6 +21,3 @@ security:
     expiration-in-seconds: 600000
     token-prefix: Bearer
     toke-key: Authorization
-
-logging:
-    config: classpath:logback.xml

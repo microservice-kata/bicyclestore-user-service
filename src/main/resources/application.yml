@@ -2,5 +2,20 @@ server:
   port: 63003
 
 spring:
+  application:
+    name: bicyclestore-user-service
   profiles:
     active: dev
+
+management:
+  endpoints:
+    web:
+      exposure:
+        include: info, health, shutdown
+  endpoint:
+    shutdown:
+      enabled: true
+
+logging:
+    config: classpath:logback.xml
+

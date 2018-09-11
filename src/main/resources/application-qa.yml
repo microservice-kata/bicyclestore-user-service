@@ -1,0 +1,25 @@
+spring:
+  profiles:
+    active: qa
+  datasource:
+    url: jdbc:mysql://127.0.0.1:3306/bicyclestore_user_qa
+    username: root
+    password:
+
+eureka:
+  client:
+    healthcheck:
+      enabled: true
+    serviceUrl:
+      defaultZone: http://localhost:63002/eureka
+  instance:
+    prefer-ip-address: true
+    instance-id: ${spring.application.name}:${spring.cloud.client.ip-address}:${spring.application.instance_id:${server.port}}
+
+
+security:
+  jwt:
+    secret: ${JWT_SECRET:_SEMS_JWT_SECRET_201807080909999}
+    expiration-in-seconds: 600000
+    token-prefix: Bearer
+    toke-key: Authorization

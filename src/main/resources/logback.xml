@@ -10,7 +10,7 @@
         </encoder>
     </appender>
 
-    <appender name="jsonAppender" class="ch.qos.logback.core.rolling.RollingFileAppender">
+    <appender name="JSON_APPENDER" class="ch.qos.logback.core.rolling.RollingFileAppender">
         <file>${LOG_DIRECTORY}/${LOG_FILE_NAME}.log</file>
         <encoder class="net.logstash.logback.encoder.LoggingEventCompositeJsonEncoder">
             <providers>
@@ -34,16 +34,16 @@
         <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
             <fileNamePattern>${LOG_DIRECTORY}/${LOG_FILE_NAME}.%d{yyyy-MM-dd}.log</fileNamePattern>
             <maxHistory>30</maxHistory>
-            <totalSizeCap>8GB</totalSizeCap>
+            <totalSizeCap>10GB</totalSizeCap>
         </rollingPolicy>
     </appender>
 
-    <logger name="jsonLogger" additivity="false" level="DEBUG">
-        <appender-ref ref="jsonAppender"/>
+    <logger name="JSON_LOGGER" additivity="false" level="DEBUG">
+        <appender-ref ref="JSON_APPENDER"/>
     </logger>
 
     <root level="${LOG_LEVEL}">
         <appender-ref ref="STDOUT" />
-        <appender-ref ref="jsonAppender"/>
+        <appender-ref ref="JSON_APPENDER"/>
     </root>
 </configuration>

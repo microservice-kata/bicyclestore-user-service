@@ -6,6 +6,8 @@ spring:
     name: bicyclestore-user-service
   profiles:
     active: dev
+  flyway:
+    enabled: true
 
 management:
   endpoints:

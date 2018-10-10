@@ -94,3 +94,5 @@ gradle-app.setting
 
 # BlueJ files
 *.ctxt
+
+*application-local.yml

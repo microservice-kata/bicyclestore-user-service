@@ -46,8 +46,10 @@ ext {
     mysqlConnectorVersion = "6.0.6"
     lombokVersion = "1.18.2"
     eurekaClientVersion = "2.0.1.RELEASE"
+
     junitJupiterVersion = "5.2.0"
     junitPlatformVersion = "1.2.0"
+    flywayVersion = "5.1.4"
     springMockMvCVersion = "2.9.0"
     logstashVersion = "4.9"
 }
@@ -59,6 +61,8 @@ dependencies {
     compile("org.springframework.boot:spring-boot-starter-data-jpa")
     compile("org.springframework.cloud:spring-cloud-starter-netflix-eureka-client:${eurekaClientVersion}")
     compile("io.jsonwebtoken:jjwt:${jjwtVersion}")
+    compile("org.flywaydb:flyway-core:${flywayVersion}")
+
 
     compile("mysql:mysql-connector-java:${mysqlConnectorVersion}")
     compile("org.projectlombok:lombok:${lombokVersion}")
@@ -77,24 +81,11 @@ dependencies {
 }
 
 
-def env = project.hasProperty("env") ? env : "dev"
+def env = project.hasProperty("env") ? env : "local"
 
-//processResources {
-//    println("active profile: ${env}")
-//
-//    include "application.yml"
-//    include "application-${env}.yml"
-//    include "db/migration/**"
-//    include "logback.xml"
-//    filesMatching("**/application.yml") {
-//        filter(ReplaceTokens, tokens: [
-//            'PROFILE_PLACE_HOLDER': "${env}".toString(),
-//        ])
-//    }
-//}
-//build.dependsOn processResources
-bootRun.dependsOn flywayMigrate
 bootRun.systemProperty "spring.profiles.active", env
+
+bootRun.dependsOn flywayMigrate
 
 applicationDefaultJvmArgs = [
     "-Xdebug -Xrunjdwp:transport=dt_socket,address=5005,server=y,suspend=n"

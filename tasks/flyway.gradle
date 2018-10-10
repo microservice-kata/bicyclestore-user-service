@@ -7,21 +7,21 @@ buildscript {
     }
 }
 
-import org.yaml.snakeyaml.Yaml
-
-
 apply plugin: "org.flywaydb.flyway"
 
-def env = project.hasProperty("env") ? env : "dev"
+def env = project.hasProperty("env") ? env : "local"
 def filePath = env == "test" ? "${projectDir}/src/test/resources/application-${env}.yml" : "${projectDir}/src/main/resources/application-${env}.yml"
-def config = new Yaml().load(new File(filePath).newInputStream())
+def file = new File(filePath)
 
-flyway {
-    driver = "com.mysql.cj.jdbc.Driver"
-    url = config.spring.datasource.url
-    user = config.spring.datasource.username
-    password = config.spring.datasource.password
-    table = "schema_version"
-    locations = ["filesystem:${projectDir}/src/main/resources/db/migration/mysql"]
-    sqlMigrationPrefix = "MySQL-"
+if (file.exists()) {
+    def config = new Yaml().load(file.newInputStream())
+    flyway {
+        driver = "com.mysql.cj.jdbc.Driver"
+        url = config.spring.datasource.url
+        user = config.spring.datasource.username
+        password = config.spring.datasource.password
+        table = "schema_version"
+        locations = ["filesystem:${projectDir}/src/main/resources/db/migration/mysql"]
+        sqlMigrationPrefix = "MySQL-"
+    }
 }

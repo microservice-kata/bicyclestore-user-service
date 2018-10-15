@@ -1,0 +1,13 @@
+task initgithooks(type: Copy) {
+    from new File(rootProject.rootDir, 'config/git-hooks/pre-commit')
+    into {
+        new File(rootProject.rootDir, '.git/hooks')
+    }
+    from new File(rootProject.rootDir, 'config/git-hooks/pre-push')
+    into {
+        new File(rootProject.rootDir, '.git/hooks')
+    }
+    fileMode 0755
+}
+
+build.dependsOn initgithooks
